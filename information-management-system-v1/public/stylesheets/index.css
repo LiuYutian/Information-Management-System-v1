@@ -1,0 +1,14 @@
+#tab {
+    line-height:30px;
+}
+.delete {
+    cursor:pointer;
+}
+
+.delect:hover {
+    color:#EEE;
+}
+
+.input-append {
+    margin-top:20px;
+}

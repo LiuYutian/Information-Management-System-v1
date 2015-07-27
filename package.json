@@ -1,0 +1,24 @@
+{
+  "name": "information-management-system-v1",
+  "version": "1.0.0",
+  "description": "信息管理系统 V1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiuYutian/Information-Management-System-v1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LiuYutian/Information-Management-System-v1/issues"
+  },
+  "homepage": "https://github.com/LiuYutian/Information-Management-System-v1#readme",
+  "dependencies": {
+    "ejs": "^2.3.3",
+    "express": "^4.13.1",
+    "mysql": "^2.8.0"
+  }
+}
