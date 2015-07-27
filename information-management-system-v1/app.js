@@ -47,24 +47,40 @@ app.get("/student_names", function(req, res) {
 });
 
 app.delete("/student_name", function(req, res) {
-    User.destroy({where : {id : req.body.id}}).done(function() {
-        res.send({
-            status : 200,
-            data : "",
-            message : ""
-        });
+    User.destroy({where : {id : req.body.id}}).done(function(exist) {
+        if(exist !== 0) {
+            res.send({
+                status : 200,
+                data : "",
+                message : ""
+            });
+        }else {
+            res.send({
+                status : 400,
+                data : "",
+                message : ""
+            });
+        }
     });
 });
 
 app.post("/student_name", function(req, res) {
     User.create({
         name: req.body.id
-    }).done(function() {
-        res.send({
-            status : 1,
-            data : "ok",
-            message : ""
-        });
+    }).done(function(exist) {
+        if(exist !== null) {
+            res.send({
+                status : 200,
+                data : "ok",
+                message : ""
+            });
+        }else {
+            res.send({
+                status : 400,
+                data : "no",
+                message : ""
+            });
+        }
     });
 });
 
