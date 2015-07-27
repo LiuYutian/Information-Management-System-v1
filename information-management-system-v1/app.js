@@ -3,6 +3,19 @@ var ejs = require("ejs");
 var app = express();
 var bodyParser = require("body-parser");
 var mysql = require('mysql');
+var Sequelize = require('sequelize'),
+    sequelize = new Sequelize('student', 'root', 'root', {
+        dialect: "mysql",
+        port: 3306,
+    })
+
+var User = sequelize.define('student_name', {
+    id: Sequelize.INTEGER,
+    name: Sequelize.STRING
+}, {
+    freezeTableName : true,
+    timestamps: false
+});
 
 app.engine(".html", ejs.__express);
 app.set("view engine", "html");
@@ -19,70 +32,39 @@ app.get("/", function(req, res) {
 });
 
 app.get("/student_names", function(req, res) {
-    var conn = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database:'student',
-        port: 3306
-    });
-
-    conn.connect();
-    conn.query('select * from student_name', function(err, rows, fields) {
+    var row = [];
+    User.findAll().then(function(data) {
+        data.forEach(function(n, i) {
+            row.push(n.dataValues);
+        });
+    }).done(function() {
         res.send({
             status : 1,
-            data : rows,
+            data : row,
             message : ""
         });
-        conn.end();
     });
 });
 
 app.delete("/student_name", function(req, res) {
-    var conn = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database:'student',
-        port: 3306
-    });
-
-    conn.connect();
-    conn.query("delete from student_name where id="+ req.body.id, function(err, rows, fields) {
-        if(err === null) {
-            res.send({
-                status : 200,
-                data : "",
-                message : ""
-            });
-        }else {
-            res.send({
-                status : 500,
-                data : "",
-                message : err
-            });
-        }
-        conn.end();
+    User.destroy({where : {id : req.body.id}}).done(function() {
+        res.send({
+            status : 200,
+            data : "",
+            message : ""
+        });
     });
 });
 
 app.post("/student_name", function(req, res) {
-    var conn = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database:'student',
-        port: 3306
-    });
-
-    conn.connect();
-    conn.query("insert into student_name values ('', '" + req.body.id + "')", function(err, rows, fields) {
+    User.create({
+        name: req.body.id
+    }).done(function() {
         res.send({
             status : 1,
             data : "ok",
             message : ""
         });
-        conn.end();
     });
 });
 
